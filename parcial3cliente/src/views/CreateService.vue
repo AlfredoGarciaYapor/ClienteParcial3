@@ -1,5 +1,9 @@
 <template>
   <div class="home">
+    <div id="nav">
+        <router-link to="/servicios">Servicios</router-link> | 
+        <router-link to="/agenda">Agenda Negocio</router-link>
+    </div>
     <div class="container">
       <div class="card">
         <div class="card-body">

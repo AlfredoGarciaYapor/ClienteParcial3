@@ -1,5 +1,12 @@
 <template>
     <div>
+        <div id="nav">
+            <router-link to="/createService">Lista de Servicios</router-link> |
+            <router-link to="/schedule">Agendar</router-link> | 
+            <!-- <router-link to="/login">Login</router-link> |  -->
+            <router-link to="/servicios">Servicios</router-link> | 
+            <router-link to="/agenda">Agenda Negocio</router-link>
+        </div>
         <h1>Servicios</h1>
         <div class="row  align-middle">
             <div class="col-sm-4 mt-3" v-for="(service, key) in serviceList" :key="key">

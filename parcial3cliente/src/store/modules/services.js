@@ -11,11 +11,18 @@ const state = {
     //   cost: null,
     //   image: "image"
     // },
-    user:{userId: 1, userTypeId: 2, businessId: null, businessName: 'Proveedor1'},
+    user:{},
     citas:[],
+    token:""
    
 }
 const getters = {
+    getCitas: state => {
+        return state.citas
+    },
+    getToken: state => {
+        return state.token
+    },
     getFullServiceList: state => {
         return state.services
     },
@@ -33,11 +40,16 @@ const getters = {
 
 
 const mutations = {
+    setCitas:(state, citas) => state.citas = citas,
+    setToken:(state, token) => state.token = token,
+    setUserInfo:(state, user) => state.user = user,
     setServicio:(state, service) => state.servicio = service,
 
     setServices: (state, services) => state.services = services,
 
     newService:(state, service) => state.services.unshift(service),
+
+    newCita:(state, cita) => state.citas.unshift(cita),
 
     updService: (state, updatedService) => {
         const index = state.services.findIndex(service => service.id === updatedService.id);
@@ -50,6 +62,25 @@ const mutations = {
 
 
 const actions = {
+
+    async loginToken({commit, token}){
+        commit('setToken', token);
+    },
+
+    async fetchUser({commit}, userInfo){
+        const response = await axios.post(ENTERPOINT+'/users/userInfo', userInfo, {headers: {'Content-Type': 'application/json'}})
+        .then((response) => {
+
+            return response
+        })
+        .catch((err) => {
+
+            console.log('%c⧭', 'color: #ffa640', err);
+        })
+
+        console.log('%c⧭', 'color: #7f7700', response.data);
+        commit('setUserInfo', response.data);
+    },
     async fetchServices({ commit }, userInfo) {
         // console.log('%c⧭', 'color: #ff06e2', userInfo);
 
@@ -108,6 +139,32 @@ const actions = {
         
         console.log('%c⧭', 'color: #ffcc00', response.data[0]);
         commit('setServicio', response.data[0])
+    },
+
+    async fetchCitas({ commit }, userInfo) {
+        // console.log('%c⧭', 'color: #ff06e2', userInfo);
+
+        // console.log('%c%s', 'color: #0088cc', 'fetchServices');
+        const response = await axios.post(ENTERPOINT+'/citas/getCitas', userInfo, {headers: {'Content-Type': 'application/json'}})
+        .then((response) => {
+
+            return response
+        })
+        .catch((err) => {
+
+            console.log('%c⧭', 'color: #ffa640', err);
+        })
+        // console.log('%c⧭', 'color: #917399', response);
+        commit('setCitas', response.data);
+
+        // console.log('%c⧭', 'color: #1d5673', state.services);
+    },
+
+    async addCita({commit}, schedule){
+        const response = await axios.post(ENTERPOINT+'/citas/schedule', schedule, {headers: {'Content-Type': 'application/json'}})
+        
+        console.log('%c⧭', 'color: #ffcc00', response.data[0]);
+        commit('addCita', response.data)
     }
 
 

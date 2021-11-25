@@ -1,17 +1,35 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/createService">Lista de Servicios</router-link> |
-      <router-link to="/schedule">Agendar</router-link> | 
-      <router-link to="/login">Login</router-link> | 
-      <router-link to="/servicios">Servicios</router-link> | 
-      <router-link to="/agenda">Agenda Negocio</router-link>
-    </div>
+    <!-- <div id="nav">
+      <router-link to="/">Login</router-link>
+    </div> -->
     <router-view/>
   </div>
 </template>
 
+<script>
+import {mapGetters} from 'vuex'
+export default {
+  data() {
+    return {
+      userInfo:{}
+    }
+  },
+  computed:{
+    ...mapGetters(['getUserInfo'])
+  },
+  mounted() {
+    this.userInfo = this.getUserInfo
+  },
+
+}
+</script>
+
 <style>
+.body{
+  background-color: aqua;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

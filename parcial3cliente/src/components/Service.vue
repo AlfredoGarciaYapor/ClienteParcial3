@@ -1,5 +1,7 @@
 <template>
     <div class="container">
+        
+        <!-- <router-view/> -->
         <div class="card">
             <!-- <div class="card-header"></div> -->
             <div class="card-body" v-if="edit == false">
@@ -11,10 +13,9 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        <button class="btn btn-primary btn-sm" @click="crearCita()">CREAR CITA</button>
-                    </div>
-                    <div class="col-sm-4">
-                        <button class="btn btn-primary btn-sm" @click="edit = true">EDITAR</button>
+                        <button v-if="getUserInfo.userTypeId != 1" class="btn btn-primary btn-sm" @click="crearCita()">CREAR CITA</button>
+                        <button v-if="edit == false && getUserInfo.userTypeId == 1" class="btn btn-primary btn-sm" @click="edit = true">EDITAR</button>
+                        <button v-if="edit == true && getUserInfo.userTypeId == 1" class="btn btn-primary btn-sm" @click="edit = true">CANCELAR EDICIÓN</button>
                     </div>
                 </div>
             </div>
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 export default {
     props:{
         id:String,
@@ -34,6 +35,9 @@ export default {
         cost: Number,
         requiredTime: Number,
 
+    },
+    computed:{
+        ...mapGetters(['getUserInfo'])
     },
     data() {
         return {

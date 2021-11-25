@@ -1,11 +1,15 @@
 <template>
     <div>
-        <h1>Agenda</h1>
+        
     </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
     name: 'Agenda',
+    computed:{
+        ...mapGetters(['getCitas'])
+    }
 }
 </script>

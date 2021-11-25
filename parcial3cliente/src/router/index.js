@@ -20,7 +20,7 @@ const routes = [
     component: Schedule
   },
   {
-    path: '/login',
+    path: '/',
     name: 'Login',
     component: Login
   },

@@ -1,5 +1,11 @@
 <template>
   <div class="container">
+    <div id="nav">
+
+            <!-- <router-link to="/login">Login</router-link> |  -->
+            <router-link to="/servicios">Servicios</router-link> | 
+
+        </div>
     <form action="onSubmit">
       <div class="row mt-2 mb-5">
         <div class="col-md-4 offset-4">
@@ -40,6 +46,16 @@
         <div class="col-md-2">
           <div class="form mb-3">
             <b-form-datepicker today-button reset-button close-button v-model="schedule.date" class="mb-2" :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"></b-form-datepicker>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row justify-content-center">
+        <label class="col-sm-2 col-form-label" for="floatingName"><strong>Hora a agendar:</strong></label>
+        <div class="col-md-2">
+          <div class="form mb-3">
+            <b-form-timepicker v-model="schedule.time" locale="en"></b-form-timepicker>
+            
           </div>
         </div>
       </div>
@@ -91,7 +107,8 @@ export default {
         __v: null,
         businessName: "",
         businessId: null,
-        date:""
+        date:"",
+        time:""
       },
 
       userInfo:{
@@ -102,13 +119,14 @@ export default {
 }
   },
   computed:{
-    ...mapGetters(['serviceToShcedule', 'getFullServiceList'])
+    ...mapGetters(['serviceToShcedule', 'getFullServiceList', 'getUserInfo'])
   },
   mounted() {
     this.loadService();
+    this.userInfo = this.getUserInfo;
   },
   methods: {
-    ...mapActions(['fetchServices', 'fetchServicio']),
+    ...mapActions(['fetchServices', 'fetchServicio', 'addCita', 'fetchCitas',]),
     async loadService(){
       await this.fetchServices(this.userInfo)
       
@@ -141,7 +159,8 @@ export default {
       // console.log('%c⧭', 'color: #e57373', this.serviceToShcedule[0])
     },
     onsubmit(){
-      
+      this.addCita(this.schedule);
+      this.fetchCitas(this.userInfo)
       console.log('%c⧭', 'color: #807160', this.schedule)
     }
   },
